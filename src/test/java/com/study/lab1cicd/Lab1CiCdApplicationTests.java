@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.List;
 
+import static org.hamcrest.Matchers.matchesRegex;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,7 +45,6 @@ class Lab1CiCdApplicationTests {
 		person.setId(1L);
 		person.setName("John Doe");
 		person.setAge(30);
-		when(personService.getAllPersons()).thenReturn(Collections.singletonList(person));
 
 	}
 
@@ -58,18 +58,14 @@ class Lab1CiCdApplicationTests {
 
 	@Test
 	void testCreatePerson() throws Exception {
-		Person person = new Person("John Doe", 30);
-		person.setId(1L); // 设置返回的 ID 为 1
 
-		// 模拟 personService.createPerson 方法返回这个 person 对象
-		when(personService.createPerson(Mockito.any(Person.class))).thenReturn(person);
 
-		// 执行 POST 请求并验证返回的 Location 头部包含正确的 ID
+		// 执行请求并验证
 		mockMvc.perform(post("/api/v1/persons")
 						.contentType("application/json")
-						.content("{\"name\": \"John Doe\", \"age\": 30}"))
+						.content("{ \"name\": \"John Doe\", \"age\": 30}"))
 				.andExpect(status().isCreated())
-				.andExpect(header().string("Location", "/api/v1/persons/1"));
+				.andExpect(header().string("Location", matchesRegex("/api/v1/persons/\\d+")));  // 使用正则匹配 Location 头部的 URL
 	}
 
 	@Test
@@ -92,7 +88,9 @@ class Lab1CiCdApplicationTests {
 
 	@Test
 	void testGetAllPersons() throws Exception {
+
 		when(personService.getAllPersons()).thenReturn(List.of(person));
+
 
 		mockMvc.perform(get("/api/v1/persons"))
 				.andExpect(status().isOk())

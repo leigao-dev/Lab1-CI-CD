@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Person {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO) // 或 GenerationType.AUTO
     private Long id;
 
     private String name;
@@ -16,7 +17,8 @@ public class Person {
     public Person() {
     }
 
-    public Person(String name, int age) {
+    public Person(Long id,String name, int age) {
+        this.id=id;
         this.name=name;
         this.age=age;
     }
