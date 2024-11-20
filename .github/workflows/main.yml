@@ -58,7 +58,7 @@ jobs:
 
       # 构建 Docker 镜像，传递 JAR 文件路径
       - name: Build Docker Image
-        run:  docker build --build-arg JAR_FILE=./target/*.jar -t cicd/lab1-app .
+        run:  docker build --build-arg JAR_FILE=./target/*.jar -t gaoleiiot/cicd:lab1-app .
 
 
       # 推送 Docker 镜像到 DockerHub
