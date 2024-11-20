@@ -11,7 +11,7 @@ ARG JAR_FILE=Lab1-CI-CD-0.0.1-SNAPSHOT.jar
 RUN echo "JAR_FILE is: ${JAR_FILE}"
 
 
-COPY /home/runner/work/Lab1-CI-CD/Lab1-CI-CD/Lab1-CI-CD-0.0.1-SNAPSHOT.jar app.jar
+COPY Lab1-CI-CD/Lab1-CI-CD-0.0.1-SNAPSHOT.jar /app.jar
 
 
 # 配置启动命令
