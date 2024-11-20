@@ -63,7 +63,7 @@ jobs:
 
       # 推送 Docker 镜像到 DockerHub
       - name: Push Docker Image
-        run: docker push gaoleiiot/cicd:cicd/lab1-app
+        run: docker push gaoleiiot/cicd:lab1-app
 
       # 部署到 Render
       - name: Deploy to Render
