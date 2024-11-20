@@ -27,14 +27,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Debug file structure
+        run: ls -al
+
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker Image
-        run: docker build -t lab1-app .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/lab1-app .
 
       - name: Push Docker Image
-        run: docker push lab1-app
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/lab1-app
 
       - name: Deploy to Render
         run: |
