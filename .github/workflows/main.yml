@@ -49,7 +49,7 @@ jobs:
 
       # 确认文件结构
       - name: Debug file structure
-        run: ls -al app-jar
+        run: ls -al ./app-jar
 
       # 登录 DockerHub
       - name: Login to DockerHub
