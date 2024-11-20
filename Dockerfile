@@ -4,7 +4,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # 动态传递 JAR 文件路径
-ARG JAR_FILE=target/app.jar
+ARG JAR_FILE=Lab1-CI-CD-0.0.1-SNAPSHOT.jar
 
 # 复制 JAR 文件到镜像中
 COPY ${JAR_FILE} app.jar
