@@ -49,7 +49,7 @@ jobs:
 
       # 确认文件结构
       - name: Debug file structure
-        run: ls -al ./app-jar
+        run: ls -al /home/runner/work/Lab1-CI-CD/Lab1-CI-CD
 
       # 登录 DockerHub
       - name: Login to DockerHub
@@ -57,7 +57,7 @@ jobs:
 
       # 构建 Docker 镜像，传递 JAR 文件路径
       - name: Build Docker Image
-        run: docker build --build-arg JAR_FILE=app-jar/*.jar -t cicd/lab1-app .
+        run: docker build --build-arg JAR_FILE=/home/runner/work/Lab1-CI-CD/Lab1-CI-CD/*.jar -t cicd/lab1-app .
 
       # 推送 Docker 镜像到 DockerHub
       - name: Push Docker Image
