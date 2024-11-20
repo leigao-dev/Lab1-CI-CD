@@ -10,18 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 检出代码
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 设置 JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # 构建和测试
       - name: Build and test
         run: mvn clean verify
 
+      # 上传 JAR 文件作为构建产物
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v3
         with:
@@ -33,26 +37,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 检出代码
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 下载 JAR 构建产物
       - name: Download JAR artifact
         uses: actions/download-artifact@v3
         with:
           name: app-jar
 
+      # 确认文件结构
       - name: Debug file structure
-        run: ls -al
+        run: ls -al app-jar
 
+      # 登录 DockerHub
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+      # 构建 Docker 镜像，传递 JAR 文件路径
       - name: Build Docker Image
-        run: docker build --build-arg JAR_FILE=app-jar/app.jar -t cicd/lab1-app .
+        run: docker build --build-arg JAR_FILE=app-jar/*.jar -t cicd/lab1-app .
 
+      # 推送 Docker 镜像到 DockerHub
       - name: Push Docker Image
         run: docker push cicd/lab1-app
 
+      # 部署到 Render
       - name: Deploy to Render
         run: |
           curl -X POST -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
